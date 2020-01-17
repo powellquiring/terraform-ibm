@@ -1,0 +1,10 @@
+#vim swap files
+[._]*.sw[a-p]
+
+terraform.tfvars
+terraform.tfstate.lock.info
+terraform.tfstate
+terraform.tfstate.backup
+.terraform*
+
+local.env
