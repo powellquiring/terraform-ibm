@@ -1,17 +1,18 @@
-variable ibmcloud_api_key {}
+variable ibmcloud_api_key { }
 variable "prefix" {
-  default = "f00"
+    default = "pfqk00"
 }
 locals {
-  region = "us-east"
-  name   = "${var.prefix}"
+  region = "us-south"
+  name = "${var.prefix}"
 }
 
 provider "ibm" {
-  region           = local.region
+  region          = local.region
   ibmcloud_api_key = var.ibmcloud_api_key
-  generation       = 2
+  generation      = 1
 }
+
 module "ibm_constants" {
   source = "../../terraform-ibm-constants/"
 }
@@ -19,33 +20,26 @@ module "ibm_constants" {
 module "vpc" {
   source = "../../terraform-ibm-vpc/"
   name   = local.name
-  # create_vpc = false
-  vpc_address_prefixes = [
+  vpc_address_prefixes  = [
     [module.ibm_constants.azs[local.region][0], "10.0.0.0/16"],
     [module.ibm_constants.azs[local.region][1], "10.1.0.0/16"],
     [module.ibm_constants.azs[local.region][2], "10.2.0.0/16"],
   ]
-  private_subnets = [
+  public_subnets  = [
     [module.ibm_constants.azs[local.region][0], "10.0.0.0/16"],
     [module.ibm_constants.azs[local.region][1], "10.1.0.0/16"],
     [module.ibm_constants.azs[local.region][2], "10.2.0.0/16"],
   ]
 }
 
-output vpc_id {
-  value = module.vpc.vpc_id
-}
-
-module "vpccount" {
-  source = "../../terraform-ibm-vpc/"
-  name   = "${local.name}count"
-  private_subnets_address_count = [
-    [module.ibm_constants.azs[local.region][0], 256],
-    [module.ibm_constants.azs[local.region][1], 512],
-    [module.ibm_constants.azs[local.region][2], 256],
-  ]
-}
-
-output vpc_idcount {
-  value = module.vpccount.vpc_id
+resource "ibm_container_vpc_cluster" "cluster" {
+  name              = local.name
+  vpc_id              = module.vpc.vpc_id
+  flavor            = "c2.2x4"
+  worker_count      = "1"
+  #resource_group_id = data.ibm_resource_group.resource_group.id
+  zones {
+    subnet_id = module.vpc.public_subnets[0]
+    name      = module.ibm_constants.azs[local.region][0]
+  }
 }

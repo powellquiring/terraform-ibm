@@ -9,8 +9,8 @@ provider "ibm" {
 }
 
 locals {
-  name_master  = lower(format("%s-l", var.prefix))
-  name_slave = lower(format("%s-r", var.prefix))
+  name_master = lower(format("%s-master", var.prefix))
+  name_slave  = lower(format("%s-slave", var.prefix))
 }
 
 data "ibm_resource_group" "app_rg" {

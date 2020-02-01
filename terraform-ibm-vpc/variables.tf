@@ -12,12 +12,6 @@ variable "resource_group" {
   default     = ""
 }
 
-/*
-variable "cidr" {
-  description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
-  default     = "0.0.0.0/0"
-}
-*/
 variable "tags" {
   description = "A map of tags to add to all resources"
   default     = []
@@ -28,13 +22,15 @@ variable "vpc_tags" {
   default     = []
 }
 
-variable "azs" {
-  description = "A list of availability zones in the region"
-  default     = ["us-south-1", "us-south-2", "us-south-3"]
-}
-
+/*
+  public_subnets  = [
+    ["us-south-1", "10.0.0.0/16"],
+    ["us-south-2", "10.1.0.0/16"],
+    ["us-south-2", "10.2.0.0/16"],
+  ]
+*/
 variable "public_subnets" {
-  description = "A list of public subnets inside the VPC"
+  description = "A list of public subnets inside the VPC as a list of lists "
   default     = []
 }
 
@@ -43,7 +39,6 @@ variable "public_subnets" {
     ["us-south-1", 16]
     ["us-south-2", 32]
     ["us-south-2", 64]
-    ["us-south-3", 128]
   ]
 */
 variable "public_subnets_address_count" {
@@ -88,11 +83,6 @@ variable "private_subnets" {
 variable "private_subnets_address_count" {
   description = "A list of [zone, count] (let ibm create the CIDR)"
   default     = []
-}
-
-variable "one_nat_gateway_per_az" {
-  description = "Should be true if you want only one NAT Gateway per availability zone. Requires `var.azs` to be set, and the number of `public_subnets` created to be greater than or equal to the number of availability zones specified in `var.azs`."
-  default     = false
 }
 
 variable "default_security_group" {

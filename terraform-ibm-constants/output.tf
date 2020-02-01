@@ -9,6 +9,7 @@
 output "azs" {
   value = {
     us-south = ["us-south-1", "us-south-2", "us-south-3"]
+    us-east  = ["us-east-1", "us-east-2", "us-east-3"]
     eu-de    = ["eu-de-1", "eu-de-2", "eu-de-3"]
   }
 }
@@ -30,4 +31,5 @@ output "private_subnets" {
     eu-de    = ["10.243.1.0/24", "10.243.65.0/24", "10.243.129.0/24"]
   }
 }
+
 

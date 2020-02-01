@@ -1,6 +1,6 @@
 variable remote {
   description = "Remote IP address that will be accessed via the /remote path"
-  default = "REMOTE"
+  default     = "REMOTE"
 }
 
 locals {

@@ -123,7 +123,7 @@ variable "rules" {
     zookeeper-3888-tcp = [3888, 3888, "tcp", "Zookeeper"]
     zookeeper-jmx-tcp  = [7199, 7199, "tcp", "JMX"]
     # numbers
-    t3000         =[3000, 3000, "tcp", "port 3000"]
+    t3000 = [3000, 3000, "tcp", "port 3000"]
     # Open all ports & protocols
     all-all       = [-1, -1, "-1", "All protocols"]
     all-tcp       = [0, 65535, "tcp", "All TCP ports"]

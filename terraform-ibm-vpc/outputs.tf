@@ -17,14 +17,19 @@ output "default_network_acl" {
   value       = element(concat(ibm_is_vpc.this.*.default_network_acl, [""]), 0)
 }
 
+output "resource_crn" {
+  description = "vpc crn, just a pass through from the variable"
+  value       = element(concat(ibm_is_vpc.this.*.resource_crn, [""]), 0)
+}
+
 output "public_subnets" {
   description = "List of IDs of public subnets"
-  value       = [ibm_is_subnet.public.*.id]
+  value       = ibm_is_subnet.public.*.id
 }
 
 output "public_ipv4_cidr_blocks" {
   description = "List of IDs of public subnets"
-  value       = [ibm_is_subnet.public.*.ipv4_cidr_block]
+  value       = ibm_is_subnet.public.*.ipv4_cidr_block
 }
 
 # use either the private_subnets or private_subnets_count
@@ -41,11 +46,6 @@ output "private_ipv4_cidr_blocks" {
 output "private_zones" {
   description = "List of zones associated with private subnets"
   value       = flatten([ibm_is_subnet.private.*.zone, ibm_is_subnet.private_address_count.*.zone])
-}
-
-output "azs" {
-  description = "List of azs, just a pass through from the variable"
-  value       = var.azs
 }
 
 /*------------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ output "vpc_secondary_cidr_blocks" {
 
 output "private_subnets" {
   description = "List of IDs of private subnets"
-  value       = ["${aws_subnet.private.*.id}"]
+  value       = [aws_subnet.private.*.id]
   type        = list
 }
 
